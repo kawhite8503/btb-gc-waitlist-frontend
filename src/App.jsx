@@ -1,3 +1,5 @@
+import './App.css'
+
 // npm modules
 import { useState } from 'react'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
@@ -35,34 +37,38 @@ const App = () => {
 
   return (
     <>
-      <NavBar user={user} handleLogout={handleLogout} />
-      <Routes>
-        <Route path="/" element={<Landing user={user} />} />
-        <Route
-          path="/signup"
-          element={<Signup handleSignupOrLogin={handleSignupOrLogin} />}
-        />
-        <Route
-          path="/login"
-          element={<Login handleSignupOrLogin={handleSignupOrLogin} />}
-        />
-        <Route
-          path="/profiles"
-          element={
-            <ProtectedRoute user={user}>
-              <Profiles />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/change-password"
-          element={
-            <ProtectedRoute user={user}>
-              <ChangePassword handleSignupOrLogin={handleSignupOrLogin} />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+      <div className='App'>
+        <NavBar user={user} handleLogout={handleLogout} />
+        <main>
+          <Routes>
+            <Route path="/" element={<Landing user={user} />} />
+            <Route
+              path="/signup"
+              element={<Signup handleSignupOrLogin={handleSignupOrLogin} />}
+            />
+            <Route
+              path="/login"
+              element={<Login handleSignupOrLogin={handleSignupOrLogin} />}
+            />
+            <Route
+              path="/profiles"
+              element={
+                <ProtectedRoute user={user}>
+                  <Profiles />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/change-password"
+              element={
+                <ProtectedRoute user={user}>
+                  <ChangePassword handleSignupOrLogin={handleSignupOrLogin} />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </main>
+      </div>
     </>
   )
 }
