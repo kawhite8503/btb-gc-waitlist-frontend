@@ -10,6 +10,7 @@ import Login from './pages/Login/Login'
 import Landing from './pages/Landing/Landing'
 import Profiles from './pages/Profiles/Profiles'
 import ChangePassword from './pages/ChangePassword/ChangePassword'
+import Services from './pages/Services/Services'
 
 // components
 import NavBar from './components/NavBar/NavBar'
@@ -55,6 +56,14 @@ const App = () => {
               element={
                 <ProtectedRoute user={user}>
                   <Profiles />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/services"
+              element={
+                <ProtectedRoute user={user}>
+                  <Services />
                 </ProtectedRoute>
               }
             />
