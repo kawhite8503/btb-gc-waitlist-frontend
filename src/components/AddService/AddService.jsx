@@ -1,6 +1,8 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 
-function AddService(props) {
+function AddService({handleAddService}) {
+  const formElement = useRef()
+  const [validForm, setValidForm] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     timeHrs: '',
@@ -10,10 +12,20 @@ function AddService(props) {
     setFormData({ ...formData, [evt.target.name]: evt.target.value})
   }
 
+  useEffect(() => {
+    formElement.current.checkValidity() ? setValidForm(true) : setValidForm(false)
+  }, [formData])
+
+  const handleSubmit = evt => {
+    evt.preventDefault()
+    handleAddService(formData)
+  }
+
 	return (
 		<>
 			<h2>Add Service</h2>
-			<form autoComplete="off">
+      <h1></h1>
+			<form autoComplete="off" ref={formElement} onSubmit={handleSubmit}>
 				<div className="form-group mb-3">
 					<label htmlFor="service-name-input" className="form-label">
 						Service Name (required)
@@ -30,7 +42,7 @@ function AddService(props) {
 				</div>
 				<div className="form-group mb-3">
 					<label htmlFor="time-needed-input" className="form-label">
-						Duration (required)
+						Duration
 					</label>
 					<input 
 						type="number"
@@ -38,8 +50,7 @@ function AddService(props) {
 						id="timeHrs-input"
 						name="timeHrs"
             value={formData.timeHrs}
-            onChange={handleChange}
-						required
+            onChange={handleChange}						
 					/> hr
           <input 
 						type="number"
@@ -47,14 +58,14 @@ function AddService(props) {
 						id="timeMins-input"
 						name="timeMins"
             value={formData.timeMins}
-            onChange={handleChange}
-						required
+            onChange={handleChange}						
 					/> min
 				</div>
 				<div className="d-grid">
 					<button
 						type="submit"
 						className="btn btn-primary btn-fluid"
+            disabled={!validForm}
 					>
 						Add Service
 					</button>

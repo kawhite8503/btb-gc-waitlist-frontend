@@ -5,7 +5,7 @@ function Services(props) {
 	return (
 		<>
 			<h1>Services</h1>
-			<AddService />
+			<AddService handleAddService={props.handleAddService}/>
 		</>
 	)
 }

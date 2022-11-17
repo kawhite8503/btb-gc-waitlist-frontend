@@ -23,6 +23,7 @@ import * as authService from './services/authService'
 import './App.css'
 
 const App = () => {
+  const [services, setServices] = useState([])
   const [user, setUser] = useState(authService.getUser())
   const navigate = useNavigate()
 
@@ -34,6 +35,10 @@ const App = () => {
 
   const handleSignupOrLogin = () => {
     setUser(authService.getUser())
+  }
+
+  const handleAddService = newServiceData => {
+    setServices([...services, newServiceData])
   }
 
   return (
@@ -63,9 +68,10 @@ const App = () => {
               path="/services"
               element={
                 <ProtectedRoute user={user}>
-                  <Services />
+                  <Services handleAddService={handleAddService}/>
                 </ProtectedRoute>
               }
+              
             />
             <Route
               path="/change-password"
