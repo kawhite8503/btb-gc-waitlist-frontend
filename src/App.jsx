@@ -1,7 +1,7 @@
 import './App.css'
 
 // npm modules
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
 // page components
@@ -18,6 +18,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 // services
 import * as authService from './services/authService'
+import * as serviceService from './services/serviceService'
 
 // styles
 import './App.css'
@@ -26,6 +27,14 @@ const App = () => {
   const [services, setServices] = useState([])
   const [user, setUser] = useState(authService.getUser())
   const navigate = useNavigate()
+
+useEffect(() => {
+  const fetchAllServices = async () => {
+    const serviceData = await serviceService.getAll()
+    setServices(serviceData)
+  }
+  fetchAllServices()
+},[])
 
   const handleLogout = () => {
     authService.logout()
@@ -37,9 +46,12 @@ const App = () => {
     setUser(authService.getUser())
   }
 
-  const handleAddService = newServiceData => {
-    setServices([...services, newServiceData])
+  const handleAddService = async newServiceData => {
+    const newService = await serviceService.create(newServiceData)
+    setServices([...services, newService])
   }
+
+
 
   return (
     <>
@@ -68,7 +80,7 @@ const App = () => {
               path="/services"
               element={
                 <ProtectedRoute user={user}>
-                  <Services handleAddService={handleAddService}/>
+                  <Services handleAddService={handleAddService} services={services}/>
                 </ProtectedRoute>
               }
               
